@@ -2,4 +2,4 @@
 import {questionStatuses} from '../lib/entry.js';
 const {question:q,entry}=Astro.props;
 ---
-<li class="question" id={`${entry.id}-${q.id}`} data-status={q.status} data-search={`${q.group} ${q.text} ${q.answer||''}`}><details class="question-details"><summary>{q.text}{q.status==='open'&&<span class:list={['question-state',{resolved:q.status==='resolved'}]}>{questionStatuses[q.status]}</span>}</summary><div class="question-expanded">{q.answer&&<><h4>后来的理解{q.resolvedAt?`（${q.resolvedAt.replaceAll('-','.')}）`:''}</h4><div class="prose">{q.answer}</div></>}</div></details></li>
+<li class="question" id={`${entry.id}-${q.id}`} data-status={q.status} data-search={`${q.group} ${q.text} ${q.answer||''}`}><details class="question-details"><summary>{q.text}{q.status==='open'&&<span class:list={['question-state',{resolved:q.status==='resolved'}]}>{questionStatuses[q.status]}</span>}</summary><div class="question-expanded">{q.answer&&<><h4>后来的理解{q.resolvedAt?`（${q.resolvedAt.replaceAll('-','.')}）`:''}</h4><div class="prose answer-prose">{q.answer.split(/\n\n+/).map(paragraph=><p>{paragraph}</p>)}</div></>}</div></details></li>

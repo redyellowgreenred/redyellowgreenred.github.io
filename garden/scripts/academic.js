@@ -25,3 +25,6 @@ function setupWriter(){
 
 function revealAnchor(){if(!location.hash)return;try{const target=document.getElementById(decodeURIComponent(location.hash.slice(1)));const details=target?.matches('details')?target:target?.querySelector('details');if(details){details.open=true;target.scrollIntoView({block:'center'})}}catch{}}
 revealAnchor();window.addEventListener('hashchange',revealAnchor);
+
+const backdrop=document.getElementById('background-art');
+if(backdrop&&!matchMedia('(prefers-reduced-motion: reduce)').matches){let framePending=false;const moveBackdrop=()=>{framePending=false;const distance=document.documentElement.scrollHeight-innerHeight;const progress=distance>0?Math.min(1,Math.max(0,scrollY/distance)):0;backdrop.style.setProperty('--background-shift',(24-progress*72)+'px')};const scheduleBackdrop=()=>{if(!framePending){framePending=true;requestAnimationFrame(moveBackdrop)}};addEventListener('scroll',scheduleBackdrop,{passive:true});addEventListener('resize',scheduleBackdrop);addEventListener('load',scheduleBackdrop);document.addEventListener('toggle',scheduleBackdrop,true);moveBackdrop()}

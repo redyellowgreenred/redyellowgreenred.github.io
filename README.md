@@ -1,6 +1,6 @@
 # RED
 
-一名学生的日常学习记录，仅此而已的网站。
+计算机系的学生
 
 网站：https://redyellowgreenred.github.io/
 
