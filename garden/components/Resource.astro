@@ -1,0 +1,5 @@
+---
+const {resource:r}=Astro.props;
+const types={video:'视频',paper:'论文',article:'文章',book:'书籍',other:'资料'};
+---
+<article class="resource" id={r.id} data-search={`${r.title} ${r.author} ${r.notes}`}><div><h3><a href={r.url} target="_blank" rel="noopener noreferrer">{r.title}</a></h3><p class="resource-meta">{r.author}{r.year?`，${r.year}`:''}<span>{r.date.replaceAll('-','.')}</span></p><p>{r.notes}</p></div></article>

@@ -1,0 +1,557 @@
+{
+  "id": "2026-11-02",
+  "title": "本周学习记录",
+  "startDate": "2026-11-02",
+  "endDate": "2026-11-08",
+  "source": "根据用户修订的按日期学习记录整理",
+  "reflection": "",
+  "knowledge": [
+    {
+      "date": "2026-11-02",
+      "id": "pbt",
+      "domain": "Property-Based Testing",
+      "concepts": [
+        "生成大量输入，检查系统是否满足某个性质，而不是逐个枚举预期输出。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "软件测试"
+    },
+    {
+      "date": "2026-11-02",
+      "id": "oracle",
+      "domain": "生成器与 Oracle",
+      "concepts": [
+        "生成合法输入和判断输出对错，是两件事。",
+        "程序化 Oracle 可以按参考状态计算预期行为，不必交给 LLM Judge。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "软件测试"
+    },
+    {
+      "date": "2026-11-02",
+      "id": "shrinking",
+      "domain": "Shrinking",
+      "concepts": [
+        "把失败输入逐步缩小，让反例更容易理解和复现。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "软件测试"
+    },
+    {
+      "date": "2026-11-02",
+      "id": "world-model",
+      "domain": "World Model",
+      "concepts": [
+        "先定义世界状态与合法转移，再生成自然语言历史，减少真值不清的问题。",
+        "触发故障、稳定复现、缩减反例和定位故障，是不同的测试目标。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "Agent Memory"
+    },
+    {
+      "date": "2026-11-03",
+      "id": "csmith",
+      "domain": "Csmith",
+      "concepts": [
+        "用约束排除未定义行为，不是完全随机地生成程序。",
+        "生成空间的设计决定了哪些故障可能被发现。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "软件测试"
+    },
+    {
+      "date": "2026-11-03",
+      "id": "differential-testing",
+      "domain": "差分测试",
+      "concepts": [
+        "比较多个实现处理同一输入时的行为。",
+        "发现分歧只能说明有疑点，不能直接判断哪个实现错了。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "软件测试"
+    },
+    {
+      "date": "2026-11-03",
+      "id": "python-shell",
+      "domain": "Shell 与 Python",
+      "concepts": [
+        "Shell 先解析命令，再把参数交给程序；续行符会影响这一步。",
+        "python 和 python3 是否可用，取决于环境里实际存在的可执行程序。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "编程环境"
+    },
+    {
+      "date": "2026-11-04",
+      "id": "causal-control",
+      "domain": "控制变量",
+      "concepts": [
+        "是否控制一个变量，要看它在因果图中的位置。",
+        "控制中介可能截断间接效应；控制碰撞变量可能引入偏差。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "因果推断"
+    },
+    {
+      "date": "2026-11-04",
+      "id": "simpson",
+      "domain": "辛普森悖论",
+      "concepts": [
+        "总体相关与分组内相关可能方向相反，解释时要考虑分组结构与因果关系。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "因果推断"
+    },
+    {
+      "date": "2026-11-04",
+      "id": "swiglu",
+      "domain": "MLP 与 SwiGLU",
+      "concepts": [
+        "MLP 组合线性变换和非线性激活。SwiGLU 在其中用门控调节信息流。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "深度学习"
+    },
+    {
+      "date": "2026-11-04",
+      "id": "lora",
+      "domain": "LoRA",
+      "concepts": [
+        "把参数更新写成低秩形式，减少需要训练的参数。"
+      ],
+      "formula": "ΔW = AB，rank(ΔW) ≤ r",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "深度学习"
+    },
+    {
+      "date": "2026-11-04",
+      "id": "moe-capacity",
+      "domain": "MoE",
+      "concepts": [
+        "每个 Token 只激活部分专家，因此可以增加总参数容量，而不让所有参数都参与每次计算。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "深度学习"
+    },
+    {
+      "date": "2026-11-05",
+      "id": "kplex-pruning",
+      "domain": "k-plex 剪枝",
+      "concepts": [
+        "安全剪枝要证明整个分支都能排除，不能只凭经验。",
+        "推导重叠率下界时，要考虑最小扩展规模和无法与历史代表重叠的候选顶点。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "算法设计"
+    },
+    {
+      "date": "2026-11-05",
+      "id": "related-work",
+      "domain": "Related Work",
+      "concepts": [
+        "围绕论文要解决的问题组织，而不是按时间罗列。",
+        "理论证明、实验现象和研究假设，要分开写。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "科研写作"
+    },
+    {
+      "date": "2026-11-06",
+      "id": "dd-plus",
+      "domain": "dd+",
+      "concepts": [
+        "失败条件可能散在不同分块里，简单二分不一定能继续缩减。",
+        "PASS、FAIL、UNRESOLVED 要分开；不可测试不等于通过。",
+        "dd+ 通过调整粒度、固定上下文和复用结果处理这些情况。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "软件测试"
+    },
+    {
+      "date": "2026-11-06",
+      "id": "minimal-failure",
+      "domain": "最小反例与根因",
+      "concepts": [
+        "局部最小不等于全局最小。",
+        "反例缩小了，也不等于找到了系统内部的根因。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "软件测试"
+    },
+    {
+      "date": "2026-11-06",
+      "id": "attention-mqa",
+      "domain": "多头注意力与 MQA",
+      "concepts": [
+        "单头输出是 Value 的加权组合；多头保留各自的聚合结果，再融合。",
+        "MQA 共享 K/V，但各头的查询和注意力权重仍可不同。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "深度学习"
+    },
+    {
+      "date": "2026-11-06",
+      "id": "moe-batching",
+      "domain": "MoE 的批量执行",
+      "concepts": [
+        "先把 Token 按专家分组，再批量做矩阵计算。",
+        "逐 Token 路由不等于逐 Token 串行执行；重排和通信仍有开销。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "深度学习"
+    },
+    {
+      "date": "2026-11-06",
+      "id": "quantization",
+      "domain": "训练精度与量化",
+      "concepts": [
+        "训练中的数值误差会影响梯度和多次更新。",
+        "推理只做前向计算，可以在可接受的误差内降低精度。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "深度学习"
+    },
+    {
+      "date": "2026-11-06",
+      "id": "dp-state",
+      "domain": "DP 状态",
+      "concepts": [
+        "只保留决定未来可行决策与增量代价的历史信息。",
+        "颜色城市问题需要同时记录位置 i 和已见颜色集合 S。",
+        "递推与记忆化搜索可以遍历同一状态空间，区别在计算顺序。"
+      ],
+      "formula": "dp[i][S]",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "算法设计"
+    },
+    {
+      "date": "2026-11-07",
+      "id": "multiuser-memory",
+      "domain": "多用户记忆",
+      "concepts": [
+        "共享 Agent 还要处理记忆归属、用户间干扰和访问边界。"
+      ],
+      "formula": "",
+      "status": "exploring",
+      "notes": "",
+      "takeaways": "",
+      "area": "Agent Memory"
+    },
+    {
+      "date": "2026-11-07",
+      "id": "proactive-memory",
+      "domain": "主动记忆",
+      "concepts": [
+        "讨论把个人记忆视作长期身份表示，以及记忆能否主动触发帮助。"
+      ],
+      "formula": "",
+      "status": "exploring",
+      "notes": "",
+      "takeaways": "",
+      "area": "Agent Memory"
+    },
+    {
+      "date": "2026-11-07",
+      "id": "knowledge-increment",
+      "domain": "知识增量",
+      "concepts": [
+        "如何找出新资料相对已有知识的增量，而不是重复讲已经懂的部分？"
+      ],
+      "formula": "",
+      "status": "exploring",
+      "notes": "",
+      "takeaways": "",
+      "area": "Agent Memory"
+    },
+    {
+      "date": "2026-11-08",
+      "id": "pca",
+      "domain": "PCA",
+      "concepts": [
+        "正交投影下，保留方差最大等价于平方重建误差最小。",
+        "协方差矩阵描述特征的共同变化；主特征向量给出投影方差最大的方向。",
+        "降到 r 维时，选前 r 个最大特征值对应的正交特征向量。"
+      ],
+      "formula": "Σu = λu",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "机器学习"
+    },
+    {
+      "date": "2026-11-08",
+      "id": "information-gain",
+      "domain": "信息增益与 XOR",
+      "concepts": [
+        "信息增益是知道特征后，标签不确定性的减少量。",
+        "单个特征增益为零，不代表组合起来没有预测能力。XOR 就是反例。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "机器学习"
+    },
+    {
+      "date": "2026-11-08",
+      "id": "gini",
+      "domain": "基尼指数",
+      "concepts": [
+        "类别越混杂，不纯度越高。"
+      ],
+      "formula": "Gini = 1 − Σₖ pₖ²",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "机器学习"
+    },
+    {
+      "date": "2026-11-08",
+      "id": "sigmoid-cross-entropy",
+      "domain": "Sigmoid 与交叉熵",
+      "concepts": [
+        "Sigmoid 配合二元交叉熵时，对 Logit 的梯度可简化为 p − y。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "深度学习"
+    },
+    {
+      "date": "2026-11-08",
+      "id": "http-401",
+      "domain": "HTTP 401",
+      "concepts": [
+        "已经收到了要求认证的 HTTP 响应，不能把它当成 DNS 或连接失败。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "计算机网络"
+    },
+    {
+      "date": "2026-11-08",
+      "id": "proxy-debugging",
+      "domain": "代理排错",
+      "concepts": [
+        "代理会改变请求转发路径。排错时分别检查应用配置、系统代理和服务端响应。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "计算机网络"
+    },
+    {
+      "date": "2026-11-08",
+      "id": "declarative-sql",
+      "domain": "SQL 查询",
+      "concepts": [
+        "SQL 声明需要哪些数据，不直接指定数据库采用哪种执行算法。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": "",
+      "area": "数据库"
+    }
+  ],
+  "resources": [
+    {
+      "id": "hughes-quickcheck",
+      "title": "Testing the Hard Stuff and Staying Sane",
+      "author": "John Hughes",
+      "type": "video",
+      "status": "watched",
+      "date": "2026-11-02",
+      "url": "https://www.youtube.com/watch?v=zi0rHwfiX1Q",
+      "domainIds": [
+        "pbt",
+        "oracle",
+        "shrinking",
+        "world-model"
+      ],
+      "notes": "Property-Based Testing、自动生成测试与状态模型。"
+    },
+    {
+      "id": "zeller-dd-1999",
+      "title": "Yesterday, My Program Worked. Today, It Does Not. Why?",
+      "author": "Andreas Zeller",
+      "year": 1999,
+      "type": "paper",
+      "status": "read",
+      "date": "2026-11-06",
+      "url": "https://www.st.cs.uni-saarland.de/publications/details/zeller-esec-1999/",
+      "domainIds": [
+        "dd-plus",
+        "minimal-failure"
+      ],
+      "notes": "重点阅读 Section 5：Handling Inconsistency，关注 dd+ 如何处理 UNRESOLVED。"
+    }
+  ],
+  "resourceNote": "讨论或推荐过的 MemFail、MELT、PCA 与深度学习资料，因未确认观看或完整阅读，不列入资料清单。",
+  "questions": [
+    {
+      "id": "q-01",
+      "group": "11.02—03",
+      "domainIds": [
+        "pbt",
+        "oracle",
+        "world-model",
+        "csmith"
+      ],
+      "text": "自动生成测试如何保证正确性？",
+      "status": "resolved",
+      "answer": "先定义语义明确的参考世界，用受约束的生成器产生测试，再用独立 Oracle 判断结果。正确性约束要进入生成过程。",
+      "resolvedAt": ""
+    },
+    {
+      "id": "q-02",
+      "group": "11.04",
+      "domainIds": [
+        "causal-control"
+      ],
+      "text": "为什么控制更多变量反而可能使因果估计错误？",
+      "status": "resolved",
+      "answer": "要看因果结构。控制中介可能改变估计目标，控制碰撞变量可能引入偏差。",
+      "resolvedAt": ""
+    },
+    {
+      "id": "q-03",
+      "group": "11.06",
+      "domainIds": [
+        "attention-mqa"
+      ],
+      "text": "为什么多头 Attention 比单头更有表达能力？MQA 共享 V 又为什么有效？",
+      "status": "resolved",
+      "answer": "多头保留多个独立的聚合结果，不急着压成一个平均向量。共享 V 也不等于各头的注意力权重相同。",
+      "resolvedAt": ""
+    },
+    {
+      "id": "q-04",
+      "group": "11.06",
+      "domainIds": [
+        "moe-batching"
+      ],
+      "text": "MoE 的逐 Token 路由为什么不必导致低效的逐 Token 计算？",
+      "status": "resolved",
+      "answer": "路由和执行可以分开：先分组，再批量计算。重排和通信仍然有开销。",
+      "resolvedAt": ""
+    },
+    {
+      "id": "q-05",
+      "group": "11.06",
+      "domainIds": [
+        "quantization"
+      ],
+      "text": "为什么训练和量化推理的精度需求不同？",
+      "status": "resolved",
+      "answer": "训练误差会进入梯度和反复更新；推理只需前向结果的误差可以接受。",
+      "resolvedAt": ""
+    },
+    {
+      "id": "q-06",
+      "group": "11.06",
+      "domainIds": [
+        "dd-plus"
+      ],
+      "text": "为什么简单二分不能解决所有 Delta Debugging 问题？",
+      "status": "resolved",
+      "answer": "失败可能依赖跨分块的条件，也可能遇到 UNRESOLVED。需要保留上下文、改变粒度，并复用结果。",
+      "resolvedAt": ""
+    },
+    {
+      "id": "q-07",
+      "group": "11.06",
+      "domainIds": [
+        "minimal-failure"
+      ],
+      "text": "最小失败序列是否意味着找到了根因？",
+      "status": "resolved",
+      "answer": "不意味着。它只说明某些条件不能再从当前失败里删去；根因仍要靠受控实验和诊断。",
+      "resolvedAt": ""
+    },
+    {
+      "id": "q-08",
+      "group": "11.06",
+      "domainIds": [
+        "dp-state"
+      ],
+      "text": "动态规划究竟该保留多少历史？",
+      "status": "resolved",
+      "answer": "足以决定未来可行性和代价即可。能否合并历史，要看它们之后的行为是否等价。",
+      "resolvedAt": ""
+    },
+    {
+      "id": "q-09",
+      "group": "11.08",
+      "domainIds": [
+        "pca"
+      ],
+      "text": "为什么 PCA 最大化方差就是最小化重建误差？",
+      "status": "resolved",
+      "answer": "正交分解下，总平方长度等于投影与残差平方长度之和。总量固定，保留越多，丢失越少。",
+      "resolvedAt": ""
+    }
+  ]
+}

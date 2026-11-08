@@ -38,3 +38,5 @@ build-web/
 
 !package-lock.json
 public/notes.json
+
+public/fonts/

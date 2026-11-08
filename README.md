@@ -1,31 +1,41 @@
-# 冯黄煜的个人主页
+# RED
 
-记录日常思考与学习轨迹。基于 Astro，以 Fuwari 的封面、侧栏与卡片布局为起点定制。头像和插画由站点所有者提供。
+一名学生的日常学习记录，仅此而已的网站。
 
 网站：https://redyellowgreenred.github.io/
 
-## 写一篇记录
+## 三个板块
 
-1. 打开网站，点击「写一篇」，选择「日常思考」或「学习记录」。
-2. 填写正文、思考与收获，可以附上资料链接。
-3. 点击「准备提交到 GitHub」，再点击「去 GitHub 提交」。
-4. 新记录已预填在 GitHub 文件编辑器中。点击 Commit changes 提交后，Actions 自动发布。
+- Knowledge：学过什么，按日期与领域整理。点击领域查看简短说明、关联资料和当时的问题。
+- Resources：看过什么，只记录有明确观看或阅读经历的资料，推荐清单不算作已学。
+- Questions：困惑过什么，保留原话，可补充后来的理解，标为待回顾、仍在探索或已澄清。
 
-较长内容可以下载 JSON 文件，再上传到仓库 notes 文件夹。编辑已有记录时，先复制生成的记录内容，再到 GitHub 替换文件正文后提交。草稿只保存在当前浏览器，不算作已发布的记录。
+已按用户修订稿录入 2026.11.02—11.08 的记录：30 个知识点、2 份资料、9 个关键问题与简短解答。Knowledge 按日期倒序显示短标题，点击展开说明、公式及相关资料。知识点按领域统一底色，顶部提供小号颜色图例。11 月 7 日的三项研究设想保留探索状态。
 
-## 内容结构
+## 添加日常记录
 
-- `notes/`：已发布的记录，每篇一个 JSON 文件，文件名须与 id 一致。
-- `garden/`：主页、样式及浏览器交互。
-- `scripts/prepare-notes.mjs`：校验记录，生成网站数据。
+1. 打开 `/write/`（前台已隐藏编辑入口）。按需要填写 Knowledge、Resources、Questions，也可以添加随记。
+2. 点击「准备提交到 GitHub」，再打开 GitHub 提交预填的记录文件。
+3. 较长内容可以下载 JSON 文件，上传到 `content/entries/` 后提交。
+4. GitHub Actions 自动校验、构建并发布。
+
+草稿只保存在当前浏览器；正式记录在 Git 仓库中保留完整版本历史。
+
+可通过 `/write/?entry=记录id&question=问题id` 补充回顾状态、解释与日期。更新已有文件时，先复制新内容，再到 GitHub 全部替换并提交。
+
+## 项目结构
+
+- `content/entries/`：日常或周记录，每份一个 JSON 文件，文件名与 id 一致。
+- `garden/pages/`：主页、资料、问题、领域详情及写作页面。
+- `garden/components/`：页面结构和内容组件。
+- `garden/lib/entry.js`：数据校验与发布链接。
+- `scripts/check-content.mjs`：发布前校验。
+- `.github/workflows/pages.yml`：自动发布 GitHub Pages。
 - `public/previous-site/`：保留的原个人主页。
-- `.github/workflows/pages.yml`：测试、构建、自动发布 GitHub Pages。
 
-正式记录初始为空。示例内容只在点击「先看看示例效果」后显示，不会加入真实统计。日常思考不计算学习时长和掌握阶段；记录热力图展示全部写作足迹。
+## 本地开发
 
-## 本地运行
-
-使用 Node.js 22 或更高版本。
+Node.js 22 或更高版本：
 
 ```sh
 npm ci
@@ -34,10 +44,8 @@ npm test
 npm run build
 ```
 
-## 发布与数据
+字体随网站一起托管，不依赖 Google Fonts 在线请求。中文采用霞鹜文楷，英文采用 Literata。字体采用 OFL 许可，见 `public/licenses/`。
 
-仓库及网站是公开的。只有本仓库的写入者可以提交记录，普通访客不能修改网站。发布内容保存在 Git 中，有完整版本历史；不使用浏览器存储代替已发布内容，不需要数据库或额外服务。
+网站及仓库公开，只有拥有仓库写权限的用户可以提交。微信号按网站所有者要求展示。
 
-在仓库 Settings → Pages 中选择 GitHub Actions。旧站仍可访问 `/previous-site/`。保持原提交历史，未使用强制推送。
-
-Fuwari：https://github.com/saicaca/fuwari （MIT）。保留原 LICENSE。
+最初以 Fuwari（https://github.com/saicaca/fuwari，MIT）为起点，后按需求改成学术个人主页风格，保留原 LICENSE。旧网站地址：https://redyellowgreenred.github.io/previous-site/
