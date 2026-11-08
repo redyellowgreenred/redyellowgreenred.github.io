@@ -1,0 +1,8 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {validateNote,buildGithubUrl} from '../garden/scripts/github.js';
+const note={title:'测试学习',date:'2026-11-08',topic:'前端',minutes:30,stage:'practice',kind:'learning',notes:'理解一个概念。',gains:'可以独立解释。',resources:[{title:'MDN',url:'https://developer.mozilla.org/'}]};
+test('preserves learning records and normalizes thoughts',()=>{assert.equal(validateNote(note).minutes,30);assert.equal(validateNote({...note,kind:'thought'}).minutes,0)});
+test('rejects invalid calendar dates and unsafe links',()=>{assert.throws(()=>validateNote({...note,date:'2026-02-30'}));assert.throws(()=>validateNote({...note,resources:[{title:'bad',url:'javascript:alert(1)'}]}));assert.throws(()=>validateNote({...note,resources:[{title:'bad',url:'https://user:pass@example.com'}]}))});
+test('rejects empty records, unknown stages and implausible durations',()=>{assert.throws(()=>validateNote({...note,title:'  '}));assert.throws(()=>validateNote({...note,stage:'unknown'}));assert.throws(()=>validateNote({...note,minutes:1441}));assert.throws(()=>validateNote({...note,kind:'unknown'}))});
+test('GitHub new-file link retains Unicode content and correct destination',()=>{const saved={...note,id:'test-record'};const u=new URL(buildGithubUrl(saved));assert.equal(u.pathname,'/redyellowgreenred/redyellowgreenred.github.io/new/main');assert.equal(u.searchParams.get('filename'),'notes/test-record.json');assert.deepEqual(JSON.parse(u.searchParams.get('value')),saved);assert.equal(new URL(buildGithubUrl(saved,true)).pathname,'/redyellowgreenred/redyellowgreenred.github.io/edit/main/notes/test-record.json')});
