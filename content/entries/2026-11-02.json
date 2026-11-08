@@ -3,7 +3,7 @@
   "title": "本周学习记录",
   "startDate": "2026-11-02",
   "endDate": "2026-11-08",
-  "source": "根据用户修订的按日期学习记录整理",
+  "source": "按日期合并用户修订稿与补充稿，排除 k-plex 内容",
   "reflection": "",
   "knowledge": [
     {
@@ -64,7 +64,7 @@
       "id": "csmith",
       "domain": "Csmith",
       "concepts": [
-        "把 C 语句随便拼起来，生成的程序很可能自己就有未定义行为。拿它测试编译器，结果就说不清了。Csmith 会在生成时加上约束，把这些情况排除掉，留下适合拿来比较编译结果的程序。约束怎么设，也会影响最后能碰到哪些错误。"
+        "把 C 语句随便拼起来，程序本身就可能有未定义行为，编译结果也就失去了比较的依据。Csmith 在生成过程中约束选择，并在需要时重写表达式，尽量从源头避开这些情况，而不是生成完以后再让人逐个检查。"
       ],
       "formula": "",
       "status": "recorded",
@@ -129,7 +129,7 @@
       "id": "swiglu",
       "domain": "MLP 与 SwiGLU",
       "concepts": [
-        "MLP 把线性变换和非线性激活接在一起，才能表示更复杂的函数。SwiGLU 又多了一条门控分支：一条分支产生内容，另一条分支算出门控值，两者相乘，让不同位置的信息有不同的通过程度。"
+        "Transformer 里的常规 MLP 会对每个 Token 使用同一套参数做非线性变换，Token 之间的信息交互则交给 Attention。SwiGLU 在 MLP 中多放了一条门控分支：一边产生内容，一边算门控值，再把两边相乘。"
       ],
       "formula": "",
       "status": "recorded",
@@ -162,19 +162,6 @@
       "notes": "",
       "takeaways": "",
       "area": "深度学习"
-    },
-    {
-      "date": "2026-11-05",
-      "id": "kplex-pruning",
-      "domain": "k-plex 剪枝",
-      "concepts": [
-        "剪掉一个搜索分支，就等于放弃它后面所有可能的扩展。要保证不漏解，就得说明这些扩展无论怎么选，都已经满足剪枝条件。推重叠率下界时，需要把最小扩展规模，以及候选点里无法和历史代表重叠的那部分，一起算进去。只看当前结果，还不足以替整个分支作判断。"
-      ],
-      "formula": "",
-      "status": "recorded",
-      "notes": "",
-      "takeaways": "",
-      "area": "算法设计"
     },
     {
       "date": "2026-11-05",
@@ -274,7 +261,7 @@
       "id": "multiuser-memory",
       "domain": "多用户记忆",
       "concepts": [
-        "一个 Agent 同时服务几个人以后，记住内容只是开始。每条记忆属于谁，回答当前用户时能读哪一部分，几个人的信息相互矛盾时怎么办，都会变成需要单独处理的问题。把单用户的记忆直接合在一起，很容易漏掉这些边界。"
+        "共享 Agent 需要分清，哪些信息应该帮助到其他用户，哪些只属于当前用户。公共信息完全不流动，协作就失去了意义；私有信息随意流到别人的任务里，又会造成干扰和越界。所以多用户 Memory 还需要明确哪些影响允许发生、哪些必须被隔开。"
       ],
       "formula": "",
       "status": "exploring",
@@ -287,7 +274,7 @@
       "id": "proactive-memory",
       "domain": "主动记忆",
       "concepts": [
-        "记忆如果只在用户提问后才被检索，它的用处还是由这一次问题决定。值得继续想的是：一些长期保存的信息，能不能在合适的时候主动触发帮助？这也牵出另一个问题：一个 Agent 对某个人的长期了解，究竟应该由哪些记忆组成。"
+        "主动推送不能只看“这条信息和用户有关”。还要问它现在能带来多大帮助，会不会打断对方，以及用户愿不愿意被主动联系。相关性只是开始，信息收益和打扰成本也得放在同一个决策里考虑。"
       ],
       "formula": "",
       "status": "exploring",
@@ -353,7 +340,7 @@
       "id": "sigmoid-cross-entropy",
       "domain": "Sigmoid 与交叉熵",
       "concepts": [
-        "Sigmoid 和二元交叉熵连在一起求导，最后对 Logit 的梯度会化成 p − y。这个结果很直观：预测概率高于标签时，梯度和低于标签时的符号相反，更新就能把预测往对应的方向推。"
+        "Sigmoid 配合二元交叉熵，对 Logit 求导后会简化成 p − y。和直接配合 MSE 相比，这里少了一个额外的 σ′(z) 乘子；当 Sigmoid 已经比较饱和时，这个差别尤其容易看出来。"
       ],
       "formula": "",
       "status": "recorded",
@@ -399,6 +386,387 @@
       "notes": "",
       "takeaways": "",
       "area": "数据库"
+    },
+    {
+      "date": "2026-11-02",
+      "id": "three-valued-logic",
+      "domain": "三值逻辑",
+      "area": "形式化逻辑",
+      "concepts": [
+        "一件事还没被确认时，记录里需要留出 UNKNOWN。比如没有找到“用户接受了这个建议”的证据，就只能说暂时不知道，不能把它改写成“用户拒绝了”。TRUE、FALSE 和 UNKNOWN 分开，后面的状态更新才不会把缺少信息当成相反的事实。"
+      ],
+      "formula": "TRUE / FALSE / UNKNOWN",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-02",
+      "id": "necessary-condition",
+      "domain": "必要条件",
+      "area": "形式化逻辑",
+      "concepts": [
+        "A only if B 的意思是，A 要成立，B 必须成立。所以看到 A 可以推出 B，只有 B 却还推不回 A。把这两个方向写清楚，比凭中文读起来像不像更可靠。"
+      ],
+      "formula": "A only if B：A ⇒ B",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-02",
+      "id": "memory-provenance",
+      "domain": "记忆来源与确认",
+      "area": "Agent Memory",
+      "concepts": [
+        "用户明确说过的话、系统根据已有信息推出来的结论、助手自己提过的建议，来源和确认程度都不同。建议还没被接受，就不能直接写进“用户已经决定”的记忆里。Propose、Accept、Act 也得分别记录，否则后面的 Agent 很容易把“提过”当成“做过”。"
+      ],
+      "formula": "Propose → Accept → Act",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-02",
+      "id": "retrieval-task-failure",
+      "domain": "检索与任务结果",
+      "area": "Agent Memory",
+      "concepts": [
+        "一次回答碰巧正确，不能证明前面的检索也正确。Agent 可能取错了记忆，又靠别的信息答对；也可能记忆找对了，后面的推理出了错。测试时把检索内容和最终业务结果分开看，才知道故障发生在哪一段。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-02",
+      "id": "failure-diversity",
+      "domain": "Failure 与 Bug",
+      "area": "软件测试",
+      "concepts": [
+        "跑出一百次失败，可能只是同一个 Bug 被重复触发了一百次。比较测试方法时，还要看这些失败的触发条件和可观察行为是否真的不同。先把重复的失败归在一起，数量才有解释的意义。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-02",
+      "id": "nondeterministic-agent",
+      "domain": "非确定性 Agent 测试",
+      "area": "软件测试",
+      "concepts": [
+        "真实 Agent 的行为可能每次都不完全一样，参考世界却可以保持确定。验证时盯住它实际发出的 Tool Call，以及这些操作造成的业务状态变化，再和参考状态核对，就不必要求每次回答的文字完全相同。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-03",
+      "id": "machine-integers",
+      "domain": "机器整数与位宽",
+      "area": "软件测试",
+      "concepts": [
+        "机器里的整数先受位宽约束，不能直接套用数学整数的直觉。LLVM 的 i1 只有两个位模式；按有符号补码解释，0 表示 0，1 表示 −1，按无符号解释则是 0 和 1。优化一个看起来显然成立的式子时，位宽、解释方式和溢出语义都得一起带进去。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-03",
+      "id": "generation-tradeoff",
+      "domain": "生成约束的取舍",
+      "area": "软件测试",
+      "concepts": [
+        "生成器限制得很严，程序的语义比较清楚，结果也容易判断。但一些复杂结构可能从一开始就被排除了，相关的 Bug 自然也碰不到。设计生成空间时，需要同时看验证有多可靠，以及它还能覆盖哪些程序行为。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-03",
+      "id": "directed-generation",
+      "domain": "定向生成",
+      "area": "软件测试",
+      "concepts": [
+        "如果目标是测 Loop Fusion，让生成器先构造出适合融合的循环，再随机填充循环体和参数，会比一直等纯随机程序恰好长出目标结构更直接。随机性仍然有用，只是放在了已经确定要测试的结构里面。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-03",
+      "id": "history-dependencies",
+      "domain": "历史生成的依赖关系",
+      "area": "Agent Memory",
+      "concepts": [
+        "生成一段可检验的历史，可以先有 Query AST，再把回答它需要哪些事实、事实之间有什么依赖列出来。随后按合法时序把事件渲染成对话。这样生成的每次状态更新都有前置条件，检查时也能回头找到对应的事实。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-04",
+      "id": "online-softmax",
+      "domain": "Online Softmax",
+      "area": "深度学习",
+      "concepts": [
+        "两块数据各自做完 Softmax，得到的结果已经除过不同的分母，不能直接平均。合并时要把各块原来的归一化总量带回来，按它们的大小加权。",
+        "这次算例里，Z_A = 2、Z_B ≈ 14.78，两块输出分别是 0 和 10。合起来约为 8.81；直接平均成 5，就把两块原本不同的权重抹掉了。"
+      ],
+      "formula": "O = (Z_A O_A + Z_B O_B) / (Z_A + Z_B)",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-04",
+      "id": "stable-softmax",
+      "domain": "Softmax 的数值稳定性",
+      "area": "深度学习",
+      "concepts": [
+        "Logit 很大时，直接取指数容易溢出。先把所有 Logit 都减去最大值，Softmax 的结果不变，指数却容易计算得多。分块时还要记住各块使用的最大值和归一化总量，合并前先换到同一标尺下。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-04",
+      "id": "qk-normalization",
+      "domain": "QK Normalization",
+      "area": "深度学习",
+      "concepts": [
+        "Q 和 K 的尺度如果越来越大，点积也会跟着变大，Softmax 就容易把权重挤到极少数位置。QK Normalization 控制这两者的尺度，让注意力分布不至于只是因为数值变大就变得过分尖锐。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-04",
+      "id": "pre-post-norm",
+      "domain": "Pre-Norm 与 Post-Norm",
+      "area": "深度学习",
+      "concepts": [
+        "Pre-Norm 把归一化放进残差分支里，外面仍然保留从 x 直接加到输出的路径。Post-Norm 则在残差相加以后再归一化。网络很深时，这条直接的恒等路径通常让 Pre-Norm 的梯度传播更容易维持。"
+      ],
+      "formula": "Pre-Norm：y = x + F(Norm(x))\nPost-Norm：y = Norm(x + F(x))",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-04",
+      "id": "initialization",
+      "domain": "Xavier 与 Kaiming 初始化",
+      "area": "深度学习",
+      "concepts": [
+        "初始化不仅要让前向激活别一层层变大或变小，也要顾及反向梯度。前向方差会受到 fan_in 影响，反向还要看 fan_out；Xavier 尝试兼顾两边。换成 ReLU 后，激活的方差会被改变，Kaiming 初始化把这件事也算了进去。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-06",
+      "id": "dependency-aware-reduction",
+      "domain": "依赖感知的缩减",
+      "area": "软件测试",
+      "concepts": [
+        "删掉一段程序或一批修改以前，可以先看看它们依赖谁。语法结构、语义前置条件和修改间的关系，都能帮助判断哪些组合很可能根本跑不起来。缩减器利用这些信息，就能少做一些只会得到 UNRESOLVED 的测试。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-07",
+      "id": "memory-identity",
+      "domain": "记忆的身份归属",
+      "area": "Agent Memory",
+      "concepts": [
+        "一条记忆在多个 Agent 之间传来传去，原来是谁提供的、属于哪个用户、允许谁使用，都要跟着保留下来。否则内容本身即使没有变，换到另一个身份下使用，也可能造成记忆污染或越权。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-07",
+      "id": "memory-behavior",
+      "domain": "用行为评价记忆",
+      "area": "Agent Memory",
+      "concepts": [
+        "检索命中了多少条记忆，只能说明检索这一步做得怎样。更值得往后看的是，Agent 是否因此少犯错、完成了原本做不到的任务，或者做出了更合适的操作。记忆有没有用，最终还要落到实际行为和任务表现上。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-08",
+      "id": "lp-relaxation",
+      "domain": "整数规划与 LP 松弛",
+      "area": "数学优化",
+      "concepts": [
+        "把整数变量放宽成连续变量以后，可行范围变大了，得到的 LP 往往更容易求。对最大化问题，它的最优值可以当作整数问题的上界。只是这个解可能带着分数，拿到上界以后，还不能直接把它当成可执行的整数方案。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-08",
+      "id": "valid-inequalities",
+      "domain": "有效不等式与割平面",
+      "area": "数学优化",
+      "concepts": [
+        "有效不等式要保留所有整数可行解，同时尽量排掉松弛后多出来的分数解。加进 LP 后，可行范围缩小，上界也就有机会收紧。",
+        "这次算例的 LP 最优值是 100/7，约为 14.286。加入 x_B + x_C ≤ 1 后，上界降到了 14；已经找到的整数可行解也达到 14。两边夹在同一个数上，整数最优值就确定了。"
+      ],
+      "formula": "z_LP = 100/7 ≈ 14.286\nx_B + x_C ≤ 1  ⇒  上界 = 14 = 已知整数可行值",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-08",
+      "id": "branch-and-bound",
+      "domain": "分支定界",
+      "area": "数学优化",
+      "concepts": [
+        "遇到分数变量时，可以按它的取值把原问题分成互斥、又覆盖原整数可行域的子问题。每个节点先求 LP 松弛，看看这一支最好还有可能做到多少。",
+        "如果这个上界已经不超过手里最好的整数可行值，继续搜索也不会改进结果，就可以剪掉。这样逐步排除不可能更好的分支，不必把每个整数方案都枚举出来。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-08",
+      "id": "lp-duality",
+      "domain": "线性规划对偶",
+      "area": "数学优化",
+      "concepts": [
+        "对最大化原问题，找到一个原问题可行解，就有了一份实际能达到的值；找到一个对偶可行解，则可以给最优值封一个上界。弱对偶性让这个界不必等到原问题完全求解后才出现。",
+        "对偶的算例里，取 u = v = 1，验证它对偶可行以后，就能得到目标值不超过 9 的证书。这里真正有用的是可行性和界，不只是最后代入得到的那个数字。"
+      ],
+      "formula": "u = v = 1  ⇒  目标值 ≤ 9",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-08",
+      "id": "tsp-subtours",
+      "domain": "TSP 与子环消除",
+      "area": "数学优化",
+      "concepts": [
+        "每个城市都有一条入边和一条出边，仍然可能拼出几个互不相连的小环。逐个城市检查都合格，整条旅行路线却没有连起来。子环消除约束会要求每个非空真子集都有边通向外面，把这些独立的小环排除掉。"
+      ],
+      "formula": "Σᵢ∈S,ⱼ∉S xᵢⱼ ≥ 1，∅ ≠ S ⊊ V",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-08",
+      "id": "likelihood-cross-entropy",
+      "domain": "最大似然与交叉熵",
+      "area": "机器学习",
+      "concepts": [
+        "在伯努利模型里，每个样本标签出现的概率都可以写出来。把它们相乘，就是这组观测的似然；取负对数以后，各项加起来便是二元交叉熵。因此在这个设定下，让交叉熵更小和让观测标签的似然更大，是同一件事。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-08",
+      "id": "entropy-concavity",
+      "domain": "熵的凹性与信息增益",
+      "area": "机器学习",
+      "concepts": [
+        "按某个特征把样本分组，再按各组比例加权它们的熵，可以和分组前的熵作比较。利用熵的凹性和 Jensen 不等式，能得到后者不会更小。这个差值就是信息增益，所以它不会是负数。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-08",
+      "id": "covariance-origin",
+      "domain": "协方差矩阵从哪里来",
+      "area": "机器学习",
+      "concepts": [
+        "算一个线性组合的方差时，展开式里除了各个特征自己的方差，还会出现特征两两之间的协方差。把这些项按位置放在一个矩阵里，投影方差就能一起写成 uᵀΣu。PCA 里出现协方差矩阵，正是从这一步来的。"
+      ],
+      "formula": "Var(uᵀX) = uᵀΣu",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-08",
+      "id": "procedures-functions",
+      "domain": "存储过程与函数",
+      "area": "数据库",
+      "concepts": [
+        "存储过程也能把信息传出来，比如用 OUT 参数或返回结果集，所以不能靠“有没有返回值”区分过程和函数。函数可以作为表达式的一部分使用，过程通常通过单独的调用执行，两者参与 SQL 的方式不同。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-08",
+      "id": "function-side-effects",
+      "domain": "存储函数的副作用",
+      "area": "数据库",
+      "concepts": [
+        "函数写进 SQL 表达式后，会参与整个查询的执行。如果它的行为还依赖调用次数或夹带修改数据的动作，就会让查询更难推断。数据库会对这类副作用施加具体限制；比如 MySQL 的存储函数，不能修改触发当前语句已经在使用的表。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "date": "2026-11-08",
+      "id": "database-triggers",
+      "domain": "触发器",
+      "area": "数据库",
+      "concepts": [
+        "存储过程要被显式调用，触发器则挂在特定数据库事件上，事件发生时自动执行。排查一条写入语句带来的变化时，除了看这条 SQL 本身，也要想到它有没有触发后续逻辑。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
     }
   ],
   "resources": [

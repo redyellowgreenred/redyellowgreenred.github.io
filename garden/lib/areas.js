@@ -9,4 +9,6 @@ export const areaColors={
  '机器学习':'#deedf0',
  '计算机网络':'#e9eedf',
  '数据库':'#f4edda',
+ '数学优化':'#e5e7f4',
+ '形式化逻辑':'#e6ecea',
 };

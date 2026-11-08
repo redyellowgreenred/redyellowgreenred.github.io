@@ -1,7 +1,0 @@
----
-import Layout from '../components/AcademicLayout.astro';
-import Question from '../components/Question.astro';
-import {entries,stats} from '../lib/data.js';
-import {period} from '../lib/entry.js';
----
-<Layout title="Questions" active="questions" board><div class="page-title"><h2>Questions <span>困惑过什么</span></h2><label class="search"><span class="sr-only">搜索问题</span><input type="search" placeholder="搜索问题" data-filter-input/></label></div><div class="content-with-index"><div class="entry-content">{entries.map(e=><section class="period-section" id={`period-${e.id}`}><div class="period-heading"><h3>{period(e)}</h3></div>{[...new Set(e.questions.map(q=>q.group))].sort((a,b)=>b.localeCompare(a)).map(g=><section class="question-group" id={`group-${e.id}-${[...new Set(entries.flatMap(x=>x.questions.map(q=>q.group)))].indexOf(g)}`}><h3>{g}</h3><ol>{e.questions.filter(q=>q.group===g).map(q=><Question question={q} entry={e}/>)}</ol></section>)}</section>)}<p id="no-results" hidden>没有找到相应问题。</p></div></div></Layout>

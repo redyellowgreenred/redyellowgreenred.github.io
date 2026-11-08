@@ -1,11 +1,10 @@
 ---
 import Layout from '../../components/AcademicLayout.astro';
 import Resource from '../../components/Resource.astro';
-import Question from '../../components/Question.astro';
 import {domains,entries} from '../../lib/data.js';
 import {period} from '../../lib/entry.js';
 export function getStaticPaths(){return domains.map(d=>({params:{domain:d.id},props:{domain:d}}))}
 const {domain}=Astro.props;
 const matches=entries.filter(e=>e.knowledge.some(k=>k.id===domain.id));
 ---
-<Layout title={domain.name} active="knowledge"><a class="back" href="/">返回 Knowledge</a><div class="page-title"><h2>{domain.name}</h2></div>{matches.map(e=>{const k=e.knowledge.find(k=>k.id===domain.id);const resources=e.resources.filter(r=>r.domainIds.includes(domain.id));const questions=e.questions.filter(q=>q.domainIds.includes(domain.id));return <article class="domain-entry"><div class="period-heading"><h3>{period(e)}</h3></div>{k.status==='planned'&&<p class="resource-note">本周主要处于学习规划阶段。</p>}<section><h3>学习内容</h3><div class="knowledge-prose">{k.concepts.map(c=><p>{c}</p>)}</div>{k.formula&&<p class="formula">{k.formula}</p>}</section>{k.notes&&<section><h3>笔记</h3><div class="prose">{k.notes}</div></section>}{k.takeaways&&<section><h3>收获</h3><div class="prose">{k.takeaways}</div></section>}<section><h3>相关资料</h3>{resources.length?resources.map(r=><Resource resource={r}/>):<p>本周暂无该领域的资料记录。</p>}</section>{questions.length>0&&<section><h3>曾经的问题</h3><ol class="domain-questions">{questions.map(q=><Question question={q} entry={e}/>)}</ol></section>}</article>})}</Layout>
+<Layout title={domain.name} active="knowledge"><a class="back" href="/">返回学习到的知识</a><div class="page-title"><h2>{domain.name}</h2></div>{matches.map(e=>{const k=e.knowledge.find(k=>k.id===domain.id);const resources=e.resources.filter(r=>r.domainIds.includes(domain.id));return <article class="domain-entry"><div class="period-heading"><h3>{period(e)}</h3></div>{k.status==='planned'&&<p class="resource-note">本周主要处于学习规划阶段。</p>}<section><h3>学习内容</h3><div class="knowledge-prose">{k.concepts.map(c=><p>{c}</p>)}</div>{k.formula&&<p class="formula">{k.formula}</p>}</section>{k.notes&&<section><h3>笔记</h3><div class="prose">{k.notes}</div></section>}{k.takeaways&&<section><h3>收获</h3><div class="prose">{k.takeaways}</div></section>}<section><h3>相关资料</h3>{resources.length?resources.map(r=><Resource resource={r}/>):<p>本周暂无该领域的资料记录。</p>}</section></article>})}</Layout>
