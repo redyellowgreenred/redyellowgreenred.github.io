@@ -1,0 +1,169 @@
+{
+  "id": "2026-11-09",
+  "title": "卡车与无人机协同配送",
+  "startDate": "2026-11-09",
+  "endDate": "2026-11-09",
+  "source": "根据用户提供的 11 月 9 日学习日报整理",
+  "reflection": "这一天主要读了 FSTSP 和 TSP-D。把客户交给无人机以后，卡车虽然可能少走路，却还得等它会合；路线、分工和时间就得放在一起考虑。",
+  "knowledge": [
+    {
+      "id": "milp",
+      "date": "2026-11-09",
+      "domain": "混合整数规划",
+      "area": "数学优化",
+      "concepts": [
+        "客户由谁服务、卡车走哪条边，可以用二元变量表示；到达时间等数值则用连续变量。约束把这些决定联系起来。一条路线即使看起来走得通，也还要同时满足客户分配、连通、时间顺序和车机同步，才算模型里的可行解。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "id": "mtz-subtour-elimination",
+      "date": "2026-11-09",
+      "domain": "MTZ 子环消除",
+      "area": "数学优化",
+      "concepts": [
+        "给每个客户一个顺序变量 u_i。对客户之间的弧，只要选了 i→j，就要求 j 的顺序至少比 i 大 1。如果几个客户自己连成一个子环，绕一圈就会要求顺序不断增加，回到起点时产生矛盾。配合顺序变量的取值范围和合适的 M，就能用局部线性约束排除客户子环。"
+      ],
+      "formula": "u_i − u_j + 1 ≤ M(1 − x_ij)\nx_ij = 1  ⇒  u_j ≥ u_i + 1",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "id": "fstsp",
+      "date": "2026-11-09",
+      "domain": "FSTSP",
+      "area": "数学优化",
+      "concepts": [
+        "Murray 和 Chu 的模型里，一辆卡车和一架无人机一起送货，每个客户由其中一方服务。要优化的是全部配送完成的时刻。卡车的路程只是其中一部分，起飞、会合和等待也会影响最后什么时候能结束。"
+      ],
+      "formula": "min t_finish",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "id": "drone-sortie",
+      "date": "2026-11-09",
+      "domain": "无人机架次",
+      "area": "数学优化",
+      "concepts": [
+        "一个无人机任务可以写成 (i, j, k)：在 i 起飞，给 j 送货，再到 k 和卡车会合。选哪个客户交给无人机时，起降点也得一起选；它们必须和卡车实际经过的节点及时间安排对得上。"
+      ],
+      "formula": "(i, j, k)：起飞点、服务客户、会合点",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "id": "truck-drone-synchronization",
+      "date": "2026-11-09",
+      "domain": "车机同步",
+      "area": "数学优化",
+      "concepts": [
+        "卡车先到会合点，也不能立刻开始下一项共同任务，还得等无人机回来。起飞准备、回收等作业也要占时间。因此客户分配和路线没法各算各的：一次服务方式的调整，会连着改变行驶、飞行和等待的安排。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "id": "truck-route-saving",
+      "date": "2026-11-09",
+      "domain": "路线节省与净收益",
+      "area": "算法设计",
+      "concepts": [
+        "卡车原来按 i→j→k 行驶，删掉中间的 j 后，路线节省可以直接算出来。但如果卡车仍要等无人机，少走的这段时间可能只是变成了更多等待。判断一次重新分配值不值得，得把新的车机时间安排算完，再比较整体完工时间。"
+      ],
+      "formula": "s_j = τ_ij + τ_jk − τ_ik",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "id": "truck-drone-route-improvement",
+      "date": "2026-11-09",
+      "domain": "路线重排",
+      "area": "算法设计",
+      "concepts": [
+        "先求一条纯卡车 TSP 路线，可以给启发式一个起点。可一旦有客户改由无人机服务，原来那条路线对应的问题也变了，不能只删掉客户就一直沿用。还需要尝试重新插入和调整位置，计算净收益，再更新路线与无人机任务，继续改进。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "id": "tspd-operation",
+      "date": "2026-11-09",
+      "domain": "Operation",
+      "area": "数学优化",
+      "concepts": [
+        "可以把车和无人机从一个共同节点出发、到下一个共同节点会合的过程，看作一个 Operation。两者并行工作，但下一次共同作业得等较慢的一方结束。所以暂不计额外同步作业开销时，这一段的时长取两者用时的最大值。"
+      ],
+      "formula": "T_operation = max(T_truck, T_drone)",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "id": "route-first-cluster-second",
+      "date": "2026-11-09",
+      "domain": "先定顺序，再分任务",
+      "area": "算法设计",
+      "concepts": [
+        "Route-first, Cluster-second 先给出一条完整的客户访问顺序，再沿着它决定谁由卡车服务、谁交给无人机，以及在哪里划分 Operation。原来纠缠在一起的决策就分成了两步，后一步也更容易利用固定顺序来求解。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    },
+    {
+      "id": "fixed-order-drone-dp",
+      "date": "2026-11-09",
+      "domain": "固定顺序下的 DP",
+      "area": "算法设计",
+      "concepts": [
+        "给定访问顺序后，可以用动态规划选择客户的服务方式和 Operation 的划分，找出这条顺序下更好的任务安排，不必逐一枚举所有分配组合。",
+        "这里求到的最优解仍然依赖那条已给定的顺序。换一个访问顺序，可能还有更短的完成时间，所以它不能直接证明原始 TSP-D 已经全局最优。"
+      ],
+      "formula": "",
+      "status": "recorded",
+      "notes": "",
+      "takeaways": ""
+    }
+  ],
+  "resources": [
+    {
+      "id": "murray-chu-fstsp-2015",
+      "title": "The Flying Sidekick Traveling Salesman Problem: Optimization of Drone-Assisted Parcel Delivery",
+      "author": "Chase C. Murray、Amanda G. Chu",
+      "year": 2015,
+      "type": "paper",
+      "status": "read",
+      "date": "2026-11-09",
+      "url": "https://doi.org/10.1016/j.trc.2015.03.005",
+      "domainIds": ["milp", "fstsp", "drone-sortie", "truck-drone-synchronization", "truck-route-saving", "truck-drone-route-improvement"],
+      "notes": "精读了模型、同步约束、启发式和实验，重点看客户改由无人机服务后，路线节省怎样才会变成完工时间节省。"
+    },
+    {
+      "id": "agatz-bouman-schmidt-tspd-2018",
+      "title": "Optimization Approaches for the Traveling Salesman Problem with Drone",
+      "author": "Niels Agatz、Paul Bouman、Marie Schmidt",
+      "year": 2018,
+      "type": "paper",
+      "status": "read",
+      "date": "2026-11-09",
+      "url": "https://doi.org/10.1287/trsc.2017.0791",
+      "domainIds": ["tspd-operation", "route-first-cluster-second", "fixed-order-drone-dp"],
+      "notes": "开始精读，先看 Operation 表示、Route-first, Cluster-second，以及给定访问顺序后的动态规划分配。"
+    }
+  ],
+  "resourceNote": "",
+  "questions": []
+}
